@@ -17,4 +17,4 @@ In a subsequent step, we refined the previous hypotheses to test whether dietary
 8. Specialist woody-plant feeders evolved towards smaller body size optimum compared to generalist woody-plant feeders.
 
 ### Results
-The results will be added to the following link. Please note that all updates to the results will be added as new versions to the same page. Click here to see the results.
+The results will be added to the following link. Please note that all updates to the results will be added as new versions to the same page. Click [**here**](03_markdown_results.md) to see the results.
