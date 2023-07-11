@@ -164,14 +164,35 @@ run_hOUwie_all <- function(phy, data, mserr, rate.cat.cid, discr.model, nSim) {
 
 # hOUwie models --------------------------------------------------------------------------
 
+## General ----
+
 # Woody-plant vs. herb feeders (without split by specialization)
-
 dat_hos <- as.data.frame(subset(dt, select = c(species_tree, foodplant, log_dbm_mean, log_dbm_se)))
-# all good
 all.equal(dat_hos$species_tree, tt$tip.label)
-
 # run all models
 mod_hos <- run_hOUwie_all(phy = tt, data = dat_hos, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+
+## Specialists ----
+dat_hos_spe <- as.data.frame(subset(dt[dt$specialism == "specialist", ], select = c(species_tree, foodplant, log_dbm_mean, log_dbm_se)))
+phy_spe <- drop.tip(phy = tt, tip = setdiff(x = tt$tip.label, dat_hos_spe$species_tree))
+all.equal(phy_spe$tip.label, dat_hos_spe$species_tree)
+# run all models
+mod_hos_spe <- run_hOUwie_all(phy = phy_spe, data = dat_hos_spe, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+
+## Generalists ----
+dat_hos_gen <- as.data.frame(subset(dt[dt$specialism == "generalist", ], select = c(species_tree, foodplant, log_dbm_mean, log_dbm_se)))
+phy_gen <- drop.tip(phy = tt, tip = setdiff(x = tt$tip.label, dat_hos_gen$species_tree))
+all.equal(phy_gen$tip.label, dat_hos_gen$species_tree)
+# run all models
+mod_hos_gen <- run_hOUwie_all(phy = phy_gen, data = dat_hos_gen, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+
+
+
+
+
+
+
+
 
 
 
