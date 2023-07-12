@@ -37,7 +37,7 @@ dt$foodplant <- ifelse(dt$foodplant == "H", "herbs", "woody")
 dt$specialism <- ifelse(dt$specialism == "M", "specialist", "generalist")
 table(dt$foodplant, dt$specialism)
 # initial plot (exploratory)
-ggplot(data = dt, mapping = aes(x = foodplant, y = log_dbm_mean, color = specialism)) + geom_boxplot()
+#ggplot(data = dt, mapping = aes(x = foodplant, y = log_dbm_mean, color = specialism)) + geom_boxplot()
 
 # prune the phylogeny
 tt <- drop.tip(phy = t, tip = setdiff(t$tip.label, dt$species_tree))
@@ -170,23 +170,36 @@ run_hOUwie_all <- function(phy, data, mserr, rate.cat.cid, discr.model, nSim) {
 dat_hos <- as.data.frame(subset(dt, select = c(species_tree, foodplant, log_dbm_mean, log_dbm_se)))
 all.equal(dat_hos$species_tree, tt$tip.label)
 # run all models
-mod_hos <- run_hOUwie_all(phy = tt, data = dat_hos, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+#mod_hos <- run_hOUwie_all(phy = tt, data = dat_hos, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+load("output/mod_hos.rda")
+
+# average model parameters
+mod_hos_avg <- getModelAvgParams(model.list = mod_hos, type = "AICc")
+# mean values
+mod_hos_avg %>% group_by(tip_state) %>% summarise_all(mean)
 
 ## Specialists ----
 dat_hos_spe <- as.data.frame(subset(dt[dt$specialism == "specialist", ], select = c(species_tree, foodplant, log_dbm_mean, log_dbm_se)))
 phy_spe <- drop.tip(phy = tt, tip = setdiff(x = tt$tip.label, dat_hos_spe$species_tree))
 all.equal(phy_spe$tip.label, dat_hos_spe$species_tree)
 # run all models
-mod_hos_spe <- run_hOUwie_all(phy = phy_spe, data = dat_hos_spe, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+#mod_hos_spe <- run_hOUwie_all(phy = phy_spe, data = dat_hos_spe, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+load("output/mod_hos_spe.rda")
 
 ## Generalists ----
 dat_hos_gen <- as.data.frame(subset(dt[dt$specialism == "generalist", ], select = c(species_tree, foodplant, log_dbm_mean, log_dbm_se)))
 phy_gen <- drop.tip(phy = tt, tip = setdiff(x = tt$tip.label, dat_hos_gen$species_tree))
 all.equal(phy_gen$tip.label, dat_hos_gen$species_tree)
 # run all models
-mod_hos_gen <- run_hOUwie_all(phy = phy_gen, data = dat_hos_gen, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+#mod_hos_gen <- run_hOUwie_all(phy = phy_gen, data = dat_hos_gen, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+load("output/mod_hos_gen.rda")
 
-
+## Four-states model ----
+four_dat <- as.data.frame(subset(dt, select = c(species_tree, log_dbm_mean, log_dbm_se)))
+four_dat <- add_column(.data = four_dat, regime = paste(dt$foodplant, dt$specialism, sep = "_"), .after = "species_tree")
+all.equal(four_dat$species_tree, tt$tip.label)
+# run all models
+mod_four_states <- run_hOUwie_all(phy = tt, data = four_dat, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
 
 
 
