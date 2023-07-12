@@ -1,8 +1,8 @@
 ### Body size & host-plant specialization in geometrid moths
-Phylogenetic comparative analyses of body size evolution in Northern European moths (Geometridae).
+Estonian Research Council (PRG741): Phylogenetic comparative analyses of body size evolution in Northern European moths (Geometridae).
 
 ### Reasoning
-Herbs rely more heavily on qualitative defenses, expressed as secondary metabolites that can be toxic to herbivorous insects (ref). However, some insects evolved as herb feeders, as is the case with many moth species. To do so, they had to develop detoxification mechanisms (DMs), which are believed to be physiologically costly (ref). Therefore, there must be an evolutionary trade-off in which the evolution of DMs took place at the expense of resources that would be allocated to other traits, notably to body size. Comparatively, woody-plant feeders would be less affected by such a trade-off since woody plants do not commonly rely on qualitative defenses (ref). Therefore, we formulated and tested four initial hypotheses addressing the evolutionary association between body size and host-plant preferences:
+Herbs rely more heavily on qualitative defenses, expressed as secondary metabolites that can be toxic to herbivorous insects (ref). However, some insects evolved as herb feeders, as is the case with many moth species. To do so, they had to develop detoxification mechanisms (DMs), which are believed to be physiologically costly (ref). Therefore, there must be an evolutionary trade-off in which the evolution of DMs took place at the expense of resources that would be allocated to other traits, notably to body size. In this setting, woody-plant feeders would be less affected by such a trade-off since woody plants do not commonly rely on qualitative defenses (ref). We formulated and tested four initial hypotheses addressing the evolutionary association between body size and host-plant preferences:
 
 1. Species whose caterpillars feed strictly on woody plants evolved towards a larger body size optimum compared to herb feeders.
 2. Considering that evolving larger body sizes are believed to be beneficial in terms of fecundity and (add other benefits, but see ref), the rate of body size evolution is higher among wood-plant feeders than for herb feeders.
@@ -17,4 +17,5 @@ In a subsequent step, we refined the previous hypotheses to test whether dietary
 8. Specialist woody-plant feeders evolved towards smaller body size optimum compared to generalist woody-plant feeders.
 
 ### Results
-The results will be added to the following link. Please note that all updates to the results will be added as new versions to the same page. Click [**here**](03_markdown_results.md) to see the results.
+The results will be added to the following link. Please note that all updates to the results will be added to the same page.
+Click [**here**](03_markdown_results.md) to see the results.
