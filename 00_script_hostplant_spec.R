@@ -199,10 +199,9 @@ four_dat <- as.data.frame(subset(dt, select = c(species_tree, log_dbm_mean, log_
 four_dat <- add_column(.data = four_dat, regime = paste(dt$foodplant, dt$specialism, sep = "_"), .after = "species_tree")
 all.equal(four_dat$species_tree, tt$tip.label)
 # run all models
-mod_four_states <- run_hOUwie_all(phy = tt, data = four_dat, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
-
-
-
+#mod_four_states <- run_hOUwie_all(phy = tt, data = four_dat, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+#save(mod_four_states, file = "output/mod_four_states.rda")
+load("output/mod_four_states.rda")
 
 
 
