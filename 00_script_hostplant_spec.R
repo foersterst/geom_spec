@@ -203,19 +203,79 @@ all.equal(four_dat$species_tree, tt$tip.label)
 #save(mod_four_states, file = "output/mod_four_states.rda")
 load("output/mod_four_states.rda")
 
+# summary
+
+# four-states model (without A models)
+mod_four_states[!grepl("A", names(mod_four_states), ignore.case = F)] %>% 
+  getModelAvgParams(type = "AICc") %>% 
+  group_by(tip_state) %>% 
+  summarise_all(mean)
+
+# generalists model (without A models)
+mod_hos_gen[!grepl("A", names(mod_hos_gen), ignore.case = F)] %>% 
+  getModelAvgParams(type = "AICc") %>% 
+  group_by(tip_state) %>% 
+  summarise_all(mean)
+
+# specialists model (without A models)
+mod_hos_spe[!grepl("A", names(mod_hos_spe), ignore.case = F)] %>% 
+  getModelAvgParams(type = "AICc") %>% 
+  group_by(tip_state) %>% 
+  summarise_all(mean)
 
 
+# hOUwie models Approach II --------------------------------------------------------------
+
+# generalists vs. specialists within each host plant
+
+# data
+dat_spe <- as.data.frame(subset(dt, select = c(species_tree, specialism, log_dbm_mean, log_dbm_se)))
+dat_woo <- as.data.frame(subset(dt[dt$foodplant == "woody", ], select = c(species_tree, specialism, log_dbm_mean, log_dbm_se)))
+dat_her <- as.data.frame(subset(dt[dt$foodplant == "herbs", ], select = c(species_tree, specialism, log_dbm_mean, log_dbm_se)))
+
+# trees
+all.equal(tt$tip.label, dat_spe$species_tree)
+phy_woo <- drop.tip(phy = tt, tip = setdiff(tt$tip.label, y = dat_woo$species_tree))
+phy_her <- drop.tip(phy = tt, tip = setdiff(tt$tip.label, y = dat_her$species_tree))
+
+dat_woo <- dat_woo[match(phy_woo$tip.label, dat_woo$species_tree), ]
+dat_her <- dat_her[match(phy_her$tip.label, dat_her$species_tree), ]
+all.equal(phy_woo$tip.label, dat_woo$species_tree)
+all.equal(phy_her$tip.label, dat_her$species_tree)
+
+# models
+#mod_spe <- run_hOUwie_all(phy = tt, data = dat_spe, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+#mod_woo <- run_hOUwie_all(phy = phy_woo, data = dat_woo, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+#mod_her <- run_hOUwie_all(phy = phy_her, data = dat_her, mserr = "known", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+
+#save(mod_spe, file = "output/mod_spe.rda")
+#save(mod_woo, file = "output/mod_woo.rda")
+#save(mod_her, file = "output/mod_her.rda")
+
+load("output/mod_spe.rda")
+load("output/mod_woo.rda")
+load("output/mod_her.rda")
+
+mod_spe %>% getModelAvgParams() %>% group_by(tip_state) %>% summarise_all(mean)
+mod_woo %>% getModelAvgParams() %>% group_by(tip_state) %>% summarise_all(mean)
+mod_her %>% getModelAvgParams() %>% group_by(tip_state) %>% summarise_all(mean)
 
 
+## without measurement error ----
 
+# data
+dat_spe_noME <- dat_spe[, -4]
+dat_woo_noME <- dat_woo[, -4]
+dat_her_noME <- dat_her[, -4]
 
+# models
+mod_spe_noME <- run_hOUwie_all(phy = tt, data = dat_spe, mserr = "none", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+mod_woo_noME <- run_hOUwie_all(phy = phy_woo, data = dat_woo, mserr = "none", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
+mod_her_noME <- run_hOUwie_all(phy = phy_her, data = dat_her, mserr = "none", rate.cat.cid = 2, discr.model = "ARD", nSim = 100)
 
-
-
-
-
-
-
+mod_spe %>% getModelAvgParams() %>% group_by(tip_state) %>% summarise_all(mean)
+mod_woo %>% getModelAvgParams() %>% group_by(tip_state) %>% summarise_all(mean)
+mod_her %>% getModelAvgParams() %>% group_by(tip_state) %>% summarise_all(mean)
 
 
 
